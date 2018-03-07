@@ -1,5 +1,5 @@
 import {DataSource} from "./data_source"
-import {Signal} from "core/signaling"
+import {Signal, Signal0} from "core/signaling"
 import {logger} from "core/logging"
 import {SelectionManager} from "core/selection_manager"
 import * as p from "core/properties"
@@ -29,10 +29,10 @@ export abstract class ColumnarDataSource extends DataSource {
 
   data: {[key: string]: Arrayable}
 
-  _select: Signal<any, this>
+  _select: Signal0<this>
   inspect: Signal<any, this> // XXX: <[indices, tool, renderer-view, source, data], this>
 
-  streaming: Signal<void, this>
+  streaming: Signal0<this>
   patching: Signal<number[], this>
 
   constructor(attrs?: Partial<ColumnarDataSource.Attrs>) {
@@ -57,10 +57,10 @@ export abstract class ColumnarDataSource extends DataSource {
   initialize(): void {
     super.initialize()
 
-    this._select = new Signal(this, "select")
+    this._select = new Signal0(this, "select")
     this.inspect = new Signal(this, "inspect") // XXX: <[indices, tool, renderer-view, source, data], this>
 
-    this.streaming = new Signal(this, "streaming")
+    this.streaming = new Signal0(this, "streaming")
     this.patching = new Signal(this, "patching")
 
     if (!this.selection_policy)
